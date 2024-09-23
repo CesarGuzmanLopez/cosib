@@ -9,15 +9,19 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { TipoDocumento } from './tipoDocumento';
+import { EstadoDocumento } from './estadoDocumento';
 
 
-export type TipoDocumento = 'ine' | 'csf' | 'documento_bancario' | 'ine_frente' | 'ine_reverso';
+export interface DocumentoEstado { 
+    /**
+     * ID del documento
+     */
+    documentoId?: string;
+    tipo_documento?: TipoDocumento;
+    estado?: EstadoDocumento;
+}
+export namespace DocumentoEstado {
+}
 
-export const TipoDocumento = {
-    Ine: 'ine' as TipoDocumento,
-    Csf: 'csf' as TipoDocumento,
-    DocumentoBancario: 'documento_bancario' as TipoDocumento,
-    IneFrente: 'ine_frente' as TipoDocumento,
-    IneReverso: 'ine_reverso' as TipoDocumento
-};
 

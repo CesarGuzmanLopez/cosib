@@ -19,9 +19,13 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
+import { DocumentoResponse } from '../model/documentoResponse';
+// @ts-ignore
 import { ErrorResponse } from '../model/errorResponse';
 // @ts-ignore
-import { ObtenerEstadoDocumento200Response } from '../model/obtenerEstadoDocumento200Response';
+import { EstadosDocumentosResponse } from '../model/estadosDocumentosResponse';
+// @ts-ignore
+import { TipoDocumento } from '../model/tipoDocumento';
 // @ts-ignore
 import { VerificarCSF200Response } from '../model/verificarCSF200Response';
 // @ts-ignore
@@ -114,24 +118,22 @@ export class DocumentosService {
     }
 
     /**
-     * Descargar documento
-     * Permite descargar un documento subido por el usuario.
-     * @param documentoId ID del documento a descargar
+     * Obtener documento por tipo
+     * Regresa el documento asociado al usuario y tipo de documento especificado.
+     * @param usuarioId ID del usuario para el cual se desea obtener el documento
+     * @param tipoDocumento Tipo de documento que se desea obtener
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public descargarDocumento(documentoId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/pdf' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Blob>;
-    public descargarDocumento(documentoId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/pdf' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Blob>>;
-    public descargarDocumento(documentoId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/pdf' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Blob>>;
-    public descargarDocumento(documentoId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/pdf' | 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (documentoId === null || documentoId === undefined) {
-            throw new Error('Required parameter documentoId was null or undefined when calling descargarDocumento.');
+    public obtenerDocumentoPorTipo(usuarioId: string, tipoDocumento: TipoDocumento, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<DocumentoResponse>;
+    public obtenerDocumentoPorTipo(usuarioId: string, tipoDocumento: TipoDocumento, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<DocumentoResponse>>;
+    public obtenerDocumentoPorTipo(usuarioId: string, tipoDocumento: TipoDocumento, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<DocumentoResponse>>;
+    public obtenerDocumentoPorTipo(usuarioId: string, tipoDocumento: TipoDocumento, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (usuarioId === null || usuarioId === undefined) {
+            throw new Error('Required parameter usuarioId was null or undefined when calling obtenerDocumentoPorTipo.');
         }
-
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (documentoId !== undefined && documentoId !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>documentoId, 'documentoId');
+        if (tipoDocumento === null || tipoDocumento === undefined) {
+            throw new Error('Required parameter tipoDocumento was null or undefined when calling obtenerDocumentoPorTipo.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -147,7 +149,6 @@ export class DocumentosService {
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
-                'application/pdf',
                 'application/json'
             ];
             localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
@@ -167,12 +168,22 @@ export class DocumentosService {
         }
 
 
-        let localVarPath = `/descargar-documento`;
-        return this.httpClient.request('get', `${this.configuration.basePath}${localVarPath}`,
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/documentos/${this.configuration.encodeParam({name: "usuarioId", value: usuarioId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/${this.configuration.encodeParam({name: "tipoDocumento", value: tipoDocumento, in: "path", style: "simple", explode: false, dataType: "TipoDocumento", dataFormat: undefined})}`;
+        return this.httpClient.request<DocumentoResponse>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                params: localVarQueryParameters,
-                responseType: "blob",
+                responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
                 observe: observe,
@@ -183,18 +194,18 @@ export class DocumentosService {
     }
 
     /**
-     * Obtener estado de documentos
-     * Regresa el estado de cada documento para un usuario.
-     * @param usuarioId ID del usuario
+     * Obtener estado de todos los documentos de un usuario
+     * Regresa el estado de todos los documentos asociados al usuario autenticado.
+     * @param usuarioId ID del usuario para el cual se desean obtener los estados de documentos
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public obtenerEstadoDocumento(usuarioId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ObtenerEstadoDocumento200Response>;
-    public obtenerEstadoDocumento(usuarioId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ObtenerEstadoDocumento200Response>>;
-    public obtenerEstadoDocumento(usuarioId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ObtenerEstadoDocumento200Response>>;
-    public obtenerEstadoDocumento(usuarioId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public obtenerEstadoDocumentos(usuarioId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<EstadosDocumentosResponse>;
+    public obtenerEstadoDocumentos(usuarioId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<EstadosDocumentosResponse>>;
+    public obtenerEstadoDocumentos(usuarioId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<EstadosDocumentosResponse>>;
+    public obtenerEstadoDocumentos(usuarioId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (usuarioId === null || usuarioId === undefined) {
-            throw new Error('Required parameter usuarioId was null or undefined when calling obtenerEstadoDocumento.');
+            throw new Error('Required parameter usuarioId was null or undefined when calling obtenerEstadoDocumentos.');
         }
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
@@ -246,8 +257,8 @@ export class DocumentosService {
             }
         }
 
-        let localVarPath = `/estado-documento`;
-        return this.httpClient.request<ObtenerEstadoDocumento200Response>('get', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/documentos/estado`;
+        return this.httpClient.request<EstadosDocumentosResponse>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -264,14 +275,24 @@ export class DocumentosService {
     /**
      * Verificación de CSF
      * Envía un archivo en PDF o imagen y regresa datos del RFC.
+     * @param usuarioId ID del usuario para el cual se desea verificar el CSF
      * @param archivo Archivo en PDF o imagen
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public verificarCSF(archivo?: Blob, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<VerificarCSF200Response>;
-    public verificarCSF(archivo?: Blob, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<VerificarCSF200Response>>;
-    public verificarCSF(archivo?: Blob, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<VerificarCSF200Response>>;
-    public verificarCSF(archivo?: Blob, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public verificarCSF(usuarioId: string, archivo?: Blob, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<VerificarCSF200Response>;
+    public verificarCSF(usuarioId: string, archivo?: Blob, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<VerificarCSF200Response>>;
+    public verificarCSF(usuarioId: string, archivo?: Blob, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<VerificarCSF200Response>>;
+    public verificarCSF(usuarioId: string, archivo?: Blob, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (usuarioId === null || usuarioId === undefined) {
+            throw new Error('Required parameter usuarioId was null or undefined when calling verificarCSF.');
+        }
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (usuarioId !== undefined && usuarioId !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>usuarioId, 'usuarioId');
+        }
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -343,6 +364,7 @@ export class DocumentosService {
             {
                 context: localVarHttpContext,
                 body: localVarConvertFormParamsToString ? localVarFormParams.toString() : localVarFormParams,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -356,14 +378,24 @@ export class DocumentosService {
     /**
      * Validación de Documento Bancario
      * Envía un documento bancario y regresa datos del propietario.
-     * @param documento Documento bancario
+     * @param usuarioId ID del usuario para el cual se desea verificar el documento bancario
+     * @param documento Archivo del documento bancario
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public verificarDocumentoBancario(documento?: Blob, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<VerificarDocumentoBancario200Response>;
-    public verificarDocumentoBancario(documento?: Blob, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<VerificarDocumentoBancario200Response>>;
-    public verificarDocumentoBancario(documento?: Blob, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<VerificarDocumentoBancario200Response>>;
-    public verificarDocumentoBancario(documento?: Blob, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public verificarDocumentoBancario(usuarioId: string, documento?: Blob, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<VerificarDocumentoBancario200Response>;
+    public verificarDocumentoBancario(usuarioId: string, documento?: Blob, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<VerificarDocumentoBancario200Response>>;
+    public verificarDocumentoBancario(usuarioId: string, documento?: Blob, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<VerificarDocumentoBancario200Response>>;
+    public verificarDocumentoBancario(usuarioId: string, documento?: Blob, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (usuarioId === null || usuarioId === undefined) {
+            throw new Error('Required parameter usuarioId was null or undefined when calling verificarDocumentoBancario.');
+        }
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (usuarioId !== undefined && usuarioId !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>usuarioId, 'usuarioId');
+        }
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -435,6 +467,7 @@ export class DocumentosService {
             {
                 context: localVarHttpContext,
                 body: localVarConvertFormParamsToString ? localVarFormParams.toString() : localVarFormParams,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -448,15 +481,25 @@ export class DocumentosService {
     /**
      * Verificar INE
      * Envía dos archivos de fotos de la INE y regresa los datos.
+     * @param usuarioId ID del usuario para el cual se desea verificar el INE
      * @param ine1 Primera imagen de la INE
      * @param ine2 Segunda imagen de la INE
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public verificarINE(ine1?: Blob, ine2?: Blob, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<VerificarINE200Response>;
-    public verificarINE(ine1?: Blob, ine2?: Blob, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<VerificarINE200Response>>;
-    public verificarINE(ine1?: Blob, ine2?: Blob, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<VerificarINE200Response>>;
-    public verificarINE(ine1?: Blob, ine2?: Blob, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public verificarINE(usuarioId: string, ine1?: Blob, ine2?: Blob, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<VerificarINE200Response>;
+    public verificarINE(usuarioId: string, ine1?: Blob, ine2?: Blob, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<VerificarINE200Response>>;
+    public verificarINE(usuarioId: string, ine1?: Blob, ine2?: Blob, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<VerificarINE200Response>>;
+    public verificarINE(usuarioId: string, ine1?: Blob, ine2?: Blob, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (usuarioId === null || usuarioId === undefined) {
+            throw new Error('Required parameter usuarioId was null or undefined when calling verificarINE.');
+        }
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (usuarioId !== undefined && usuarioId !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>usuarioId, 'usuarioId');
+        }
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -534,6 +577,7 @@ export class DocumentosService {
             {
                 context: localVarHttpContext,
                 body: localVarConvertFormParamsToString ? localVarFormParams.toString() : localVarFormParams,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

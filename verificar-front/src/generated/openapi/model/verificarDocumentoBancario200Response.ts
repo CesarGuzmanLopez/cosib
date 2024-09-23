@@ -13,8 +13,8 @@
 
 export interface VerificarDocumentoBancario200Response { 
     nombre?: string;
-    direccion?: string;
     banco?: string;
+    cuenta?: string;
     datos_adicionales?: object;
 }
 
