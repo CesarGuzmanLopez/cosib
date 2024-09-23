@@ -8,6 +8,7 @@ configuration.ts
 encoder.ts
 git_push.sh
 index.ts
+model/archivoBase64.ts
 model/documentoEstado.ts
 model/documentoResponse.ts
 model/errorResponse.ts

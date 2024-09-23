@@ -4,6 +4,7 @@ import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonValue
+import documents.api.generated.dto.ArchivoBase64Dto
 import documents.api.generated.dto.EstadoDocumentoDto
 import documents.api.generated.dto.TipoDocumentoDto
 import javax.validation.constraints.DecimalMax
@@ -22,7 +23,7 @@ import io.swagger.v3.oas.annotations.media.Schema
  * @param documentoId ID del documento
  * @param tipoDocumento 
  * @param estado 
- * @param ruta Documento en formato de bytes
+ * @param archivo Documento en formato de bytes codificado en Base64
  */
 data class DocumentoResponseDto(
 
@@ -37,8 +38,9 @@ data class DocumentoResponseDto(
     @Schema(example = "null", description = "")
     @get:JsonProperty("estado") val estado: EstadoDocumentoDto? = null,
 
-    @Schema(example = "null", description = "Documento en formato de bytes")
-    @get:JsonProperty("ruta") val ruta: kotlin.ByteArray? = null
+    @field:Valid
+    @Schema(example = "null", description = "Documento en formato de bytes codificado en Base64")
+    @get:JsonProperty("archivo") val archivo: ArchivoBase64Dto? = null
     ) {
 
 }

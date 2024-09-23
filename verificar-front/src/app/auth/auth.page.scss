@@ -1,0 +1,7 @@
+.secure-zone {
+  //muestro un margen y un padding de 16px
+  padding: 16px;
+  margin: 16px;
+  //aseguro que el padding y el margin no afecten el tamaño del contenedor
+  box-sizing: border-box;
+}

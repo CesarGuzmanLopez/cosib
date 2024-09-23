@@ -16,9 +16,11 @@ import io.swagger.v3.oas.annotations.media.Schema
 /**
  * 
  * @param nombre 
+ * @param apellido1 
+ * @param apellido2 
+ * @param fechaNacimiento 
  * @param sexo 
  * @param direccion 
- * @param fechaNacimiento 
  */
 data class UserUpdateRequestDto(
 
@@ -26,14 +28,20 @@ data class UserUpdateRequestDto(
     @get:JsonProperty("nombre") val nombre: kotlin.String? = null,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("sexo") val sexo: kotlin.String? = null,
+    @get:JsonProperty("apellido1") val apellido1: kotlin.String? = null,
 
     @Schema(example = "null", description = "")
-    @get:JsonProperty("direccion") val direccion: kotlin.String? = null,
+    @get:JsonProperty("apellido2") val apellido2: kotlin.String? = null,
 
     @field:Valid
     @Schema(example = "null", description = "")
-    @get:JsonProperty("fecha_nacimiento") val fechaNacimiento: java.time.LocalDate? = null
+    @get:JsonProperty("fecha_nacimiento") val fechaNacimiento: java.time.LocalDate? = null,
+
+    @Schema(example = "null", description = "")
+    @get:JsonProperty("sexo") val sexo: kotlin.String? = null,
+
+    @Schema(example = "null", description = "")
+    @get:JsonProperty("direccion") val direccion: kotlin.String? = null
     ) {
 
 }

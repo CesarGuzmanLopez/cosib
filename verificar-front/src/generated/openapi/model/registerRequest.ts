@@ -21,9 +21,17 @@ export interface RegisterRequest {
      */
     password: string;
     /**
-     * Nombre completo
+     * Nombre
      */
-    nombre?: string;
+    nombre: string;
+    /**
+     * Primer apellido
+     */
+    apellido1: string;
+    /**
+     * Segundo apellido
+     */
+    apellido2: string;
     /**
      * Fecha de nacimiento
      */

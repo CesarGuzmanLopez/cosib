@@ -11,26 +11,14 @@
  */
 
 
-export interface UpdateUserRequest { 
+export interface LoginRequest { 
     /**
-     * Nueva contraseña
+     * Nombre de usuario
      */
-    password?: string;
+    username: string;
     /**
-     * Nombre completo
+     * Contraseña
      */
-    nombre?: string;
-    /**
-     * Fecha de nacimiento
-     */
-    fecha_nacimiento?: string;
-    /**
-     * Sexo
-     */
-    sexo?: string;
-    /**
-     * Dirección
-     */
-    direccion?: string;
+    password: string;
 }
 

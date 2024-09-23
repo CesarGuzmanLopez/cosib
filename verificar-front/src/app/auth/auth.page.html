@@ -1,0 +1,61 @@
+<!-- auth.page.html -->
+<div class="secure-zone">
+  <ng-container *ngIf="isLoginMode; else registerTemplate">
+    <form (ngSubmit)="login()">
+      <ion-item>
+        <ion-label position="floating">User</ion-label>
+        <ion-input type="text" [(ngModel)]="loginData.user" name="user" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Password</ion-label>
+        <ion-input type="password" [(ngModel)]="loginData.password" name="password" required></ion-input>
+      </ion-item>
+      <ion-button expand="full" type="submit">Login</ion-button>
+    </form>
+    <ion-button expand="full" (click)="toggleMode()">Switch to Register</ion-button>
+  </ng-container>
+
+  <ng-template #registerTemplate>
+    <form (ngSubmit)="register()">
+      <ion-item>
+        <ion-label position="floating">User</ion-label>
+        <ion-input type="text" [(ngModel)]="registerData.user" name="user" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Password</ion-label>
+        <ion-input type="password" [(ngModel)]="registerData.password" name="password" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Confirm Password</ion-label>
+        <ion-input type="password" [(ngModel)]="registerData.confirmPassword" name="confirmPassword"
+          required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Nombre</ion-label>
+        <ion-input type="text" [(ngModel)]="registerData.nombre" name="nombre" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Primer Apellido</ion-label>
+        <ion-input type="text" [(ngModel)]="registerData.apellido1" name="apellido1" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Segundo Apellido</ion-label>
+        <ion-input type="text" [(ngModel)]="registerData.apellido2" name="apellido2" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Fecha de Nacimiento</ion-label>
+        <ion-input type="date" [(ngModel)]="registerData.fecha_nacimiento" name="fecha_nacimiento" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Sexo</ion-label>
+        <ion-input type="text" [(ngModel)]="registerData.sexo" name="sexo" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Dirección</ion-label>
+        <ion-input type="text" [(ngModel)]="registerData.direccion" name="direccion" required></ion-input>
+      </ion-item>
+      <ion-button expand="full" type="submit">Register</ion-button>
+    </form>
+    <ion-button expand="full" (click)="toggleMode()">Switch to Login</ion-button>
+  </ng-template>
+</div>

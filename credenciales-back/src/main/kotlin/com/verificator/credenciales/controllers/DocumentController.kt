@@ -43,31 +43,31 @@ class DocumentController(
         return ResponseEntity.ok(response)
     }
 
-    override fun verificarCSF(usuarioId: String, archivo: Resource?): ResponseEntity<VerificarCSF200ResponseDto> {
+    override fun verificarCSF(usuarioId: String, archivo: Resource): ResponseEntity<VerificarCSF200ResponseDto> {
         if (archivo == null) {
             throw RuntimeException("Document is required")
         }
-        
+
         // Generate fake data for testing
         val fakeNombre = "Juan Perez"
         val fakeSituacion = "Activo"
         val fakeRfc = "RFC123456"
         val fakeDatosAdicionales = mapOf("tipoContribuyente" to "Persona Física", "regimenFiscal" to "General")
-    
+
         // Verify document format
         val formatFile = archivo.inputStream.readBytes()
         val format = determineFileFormat(formatFile)
-    
+
         // Fetch the user entity
         val user = userRepository.findById(UUID.fromString(usuarioId)).orElseThrow {
             RuntimeException("User not found")
         }
-    
+
         // Check for existing documents and delete them
         val existingDocuments = documentRepository.findByUserId(user.id!!)
         existingDocuments.filter { it.tipoDocumento == TipoDocumento.csf }
             .forEach { documentRepository.delete(it) }
-    
+
         // Save the new document in the database
         val documentEntity = Documents(
             tipoDocumento = TipoDocumento.csf,
@@ -80,16 +80,16 @@ class DocumentController(
             formatFile = format
         )
         documentRepository.save(documentEntity)
-    
+
         val response = VerificarCSF200ResponseDto(
             nombre = fakeNombre,
             situacion = fakeSituacion,
             rfc = fakeRfc,
             datosAdicionales = fakeDatosAdicionales
         )
-    
-        return ResponseEntity.ok(response)
-    }
+
+        return ResponseEntity.ok(response)    }
+
     override fun verificarDocumentoBancario(
         usuarioId: String,
         documento: Resource?
@@ -143,8 +143,8 @@ class DocumentController(
 
     override fun verificarINE(
         usuarioId: String,
-        ine1: Resource?,
-        ine2: Resource?
+        ine1: Resource,
+        ine2: Resource
     ): ResponseEntity<VerificarINE200ResponseDto> {
         if (ine1 == null || ine2 == null) {
             throw RuntimeException("Both INE front and back images are required")
@@ -208,6 +208,8 @@ class DocumentController(
         return ResponseEntity.ok(response)
     }
 
+
+
     override fun obtenerDocumentoPorTipo(
         usuarioId: String,
         tipoDocumento: TipoDocumentoDto
@@ -220,12 +222,18 @@ class DocumentController(
         if (document == null) {
             throw RuntimeException("Document not found")
         }
+        val base64archivo = Base64.getEncoder().encodeToString(document.ruta)
+        val tipoDocumento = document.formatFile
+        val respuestabase64 = ArchivoBase64Dto(
+            base64 = base64archivo,
+            format = tipoDocumento
 
+        )
         val response = DocumentoResponseDto(
             documentoId = document.id.toString(),
             tipoDocumento = TipoDocumentoDto.valueOf(document.tipoDocumento.name),
             estado = EstadoDocumentoDto.valueOf(document.estado.name.lowercase()),
-            ruta = document.ruta
+            archivo = respuestabase64
         )
 
         return ResponseEntity.ok(response)

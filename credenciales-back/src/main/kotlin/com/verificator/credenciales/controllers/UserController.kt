@@ -43,6 +43,8 @@ class UserController(
             username = registerRequestDto.username,
             password = registerRequestDto.password,
             nombre = registerRequestDto.nombre,
+            apellido1 = registerRequestDto.apellido1,
+            apellido2 = registerRequestDto.apellido2,
             fechaNacimiento = registerRequestDto.fechaNacimiento,
             sexo = registerRequestDto.sexo,
             direccion = registerRequestDto.direccion
@@ -64,6 +66,8 @@ class UserController(
 
         return ResponseEntity.ok(UserDataResponseDto(
             nombre = user.nombre,
+            apellido1 = user.apellido1,
+            apellido2 = user.apellido2,
             fechaNacimiento = user.fechaNacimiento,
             sexo = user.sexo,
             direccion = user.direccion
@@ -79,6 +83,8 @@ class UserController(
         }
 
         user.nombre = userUpdateRequestDto.nombre
+        user.apellido1 = userUpdateRequestDto.apellido1
+        user.apellido2 = userUpdateRequestDto.apellido2
         user.fechaNacimiento = userUpdateRequestDto.fechaNacimiento
         user.sexo = userUpdateRequestDto.sexo
         user.direccion = userUpdateRequestDto.direccion

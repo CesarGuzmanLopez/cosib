@@ -28,6 +28,7 @@ components:
     Bearer:
       type: http
       scheme: bearer
+      bearerFormat: JWT # Opcional, pero recomendado para mayor claridad
   schemas:
     TipoDocumento:
       type: string
@@ -72,13 +73,26 @@ components:
           example: Bearer <token>
         id:
           type: string
+          description: ID del usuario
           x-stoplight:
             id: c03u3tki1r8mg
+    ArchivoBase64:
+      type: object
+      properties:
+        base64:
+          type: string
+          description: Archivo en formato de bytes codificado en Base64
+        format:
+          type: string
+          description: Tipo de archivo
     RegisterRequest:
       type: object
       required:
         - username
         - password
+        - nombre
+        - apellido1
+        - apellido2
       properties:
         username:
           type: string
@@ -88,7 +102,13 @@ components:
           description: Contraseña
         nombre:
           type: string
-          description: Nombre completo
+          description: Nombre
+        apellido1:
+          type: string
+          description: Primer apellido
+        apellido2:
+          type: string
+          description: Segundo apellido
         fecha_nacimiento:
           type: string
           format: date
@@ -104,6 +124,10 @@ components:
       properties:
         nombre:
           type: string
+        apellido1:
+          type: string
+        apellido2:
+          type: string
         fecha_nacimiento:
           type: string
           format: date
@@ -118,6 +142,10 @@ components:
       type: object
       properties:
         nombre:
+          type: string
+        apellido1:
+          type: string
+        apellido2:
           type: string
         fecha_nacimiento:
           type: string
@@ -145,10 +173,9 @@ components:
           $ref: "#/components/schemas/TipoDocumento"
         estado:
           $ref: "#/components/schemas/EstadoDocumento"
-        ruta:
-          type: string
-          format: byte
-          description: Documento en formato de bytes
+        archivo:
+          $ref: "#/components/schemas/ArchivoBase64"
+          description: Documento en formato de bytes codificado en Base64
 paths:
   /documentos/estado:
     get:
@@ -337,6 +364,9 @@ paths:
           multipart/form-data:
             schema:
               type: object
+              required:
+                - ine1
+                - ine2
               properties:
                 ine1:
                   type: string
@@ -401,6 +431,8 @@ paths:
           multipart/form-data:
             schema:
               type: object
+              required:
+                - archivo
               properties:
                 archivo:
                   type: string

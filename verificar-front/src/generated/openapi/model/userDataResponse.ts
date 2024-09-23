@@ -13,6 +13,8 @@
 
 export interface UserDataResponse { 
     nombre?: string;
+    apellido1?: string;
+    apellido2?: string;
     fecha_nacimiento?: string;
     sexo?: string;
     direccion?: string;

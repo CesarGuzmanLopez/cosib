@@ -11,8 +11,14 @@
  */
 
 
-export interface ObtenerConfiguracion200ResponseConfiguracion { 
-    version?: string;
-    mantenido?: boolean;
+export interface ArchivoBase64 { 
+    /**
+     * Archivo en formato de bytes codificado en Base64
+     */
+    base64?: string;
+    /**
+     * Tipo de archivo
+     */
+    format?: string;
 }
 

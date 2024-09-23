@@ -15,16 +15,16 @@ import io.swagger.v3.oas.annotations.media.Schema
 
 /**
  * 
- * @param token 
- * @param id ID del usuario
+ * @param base64 Archivo en formato de bytes codificado en Base64
+ * @param format Tipo de archivo
  */
-data class LoginResponseDto(
+data class ArchivoBase64Dto(
 
-    @Schema(example = "Bearer <token>", description = "")
-    @get:JsonProperty("token") val token: kotlin.String? = null,
+    @Schema(example = "null", description = "Archivo en formato de bytes codificado en Base64")
+    @get:JsonProperty("base64") val base64: kotlin.String? = null,
 
-    @Schema(example = "null", description = "ID del usuario")
-    @get:JsonProperty("id") val id: kotlin.String? = null
+    @Schema(example = "null", description = "Tipo de archivo")
+    @get:JsonProperty("format") val format: kotlin.String? = null
     ) {
 
 }

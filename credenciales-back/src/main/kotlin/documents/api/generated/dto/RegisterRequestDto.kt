@@ -17,7 +17,9 @@ import io.swagger.v3.oas.annotations.media.Schema
  * 
  * @param username Nombre de usuario
  * @param password Contraseña
- * @param nombre Nombre completo
+ * @param nombre Nombre
+ * @param apellido1 Primer apellido
+ * @param apellido2 Segundo apellido
  * @param fechaNacimiento Fecha de nacimiento
  * @param sexo Sexo
  * @param direccion Dirección
@@ -30,8 +32,14 @@ data class RegisterRequestDto(
     @Schema(example = "null", required = true, description = "Contraseña")
     @get:JsonProperty("password", required = true) val password: kotlin.String,
 
-    @Schema(example = "null", description = "Nombre completo")
-    @get:JsonProperty("nombre") val nombre: kotlin.String? = null,
+    @Schema(example = "null", required = true, description = "Nombre")
+    @get:JsonProperty("nombre", required = true) val nombre: kotlin.String,
+
+    @Schema(example = "null", required = true, description = "Primer apellido")
+    @get:JsonProperty("apellido1", required = true) val apellido1: kotlin.String,
+
+    @Schema(example = "null", required = true, description = "Segundo apellido")
+    @get:JsonProperty("apellido2", required = true) val apellido2: kotlin.String,
 
     @field:Valid
     @Schema(example = "null", description = "Fecha de nacimiento")

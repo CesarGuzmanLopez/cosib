@@ -10,6 +10,7 @@
  * Do not edit the class manually.
  */
 import { TipoDocumento } from './tipoDocumento';
+import { ArchivoBase64 } from './archivoBase64';
 import { EstadoDocumento } from './estadoDocumento';
 
 
@@ -21,9 +22,9 @@ export interface DocumentoResponse {
     tipo_documento?: TipoDocumento;
     estado?: EstadoDocumento;
     /**
-     * Documento en formato de bytes
+     * Documento en formato de bytes codificado en Base64
      */
-    ruta?: string;
+    archivo?: ArchivoBase64;
 }
 export namespace DocumentoResponse {
 }

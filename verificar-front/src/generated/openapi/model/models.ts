@@ -1,3 +1,4 @@
+export * from './archivoBase64';
 export * from './documentoEstado';
 export * from './documentoResponse';
 export * from './errorResponse';

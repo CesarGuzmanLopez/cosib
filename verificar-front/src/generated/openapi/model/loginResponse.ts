@@ -13,6 +13,9 @@
 
 export interface LoginResponse { 
     token?: string;
+    /**
+     * ID del usuario
+     */
     id?: string;
 }
 

@@ -38,6 +38,7 @@ class SpringDocConfiguration {
                     .addSecuritySchemes("Bearer", SecurityScheme()
                         .type(SecurityScheme.Type.HTTP)
                         .scheme("bearer")
+                        .bearerFormat("JWT")
                     )
             )
     }

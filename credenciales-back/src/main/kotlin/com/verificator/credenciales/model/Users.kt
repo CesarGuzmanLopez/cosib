@@ -20,7 +20,10 @@ data class Users(
 
     @Column(nullable = true)
     var nombre: String? = null,
-
+    @Column (nullable = true)
+    var apellido1: String? = null,
+    @Column (nullable = true)
+    var apellido2: String? = null,
     @Column(nullable = true)
     var fechaNacimiento: LocalDate? = null,
 

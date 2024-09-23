@@ -102,7 +102,7 @@ interface DocumentosApi {
             produces = ["application/json"],
             consumes = ["multipart/form-data"]
     )
-    fun verificarCSF(@NotNull @Parameter(description = "ID del usuario para el cual se desea verificar el CSF", required = true) @Valid @RequestParam(value = "usuarioId", required = true) usuarioId: kotlin.String,@Parameter(description = "Archivo en PDF o imagen") @Valid @RequestPart("archivo", required = false) archivo: org.springframework.core.io.Resource?): ResponseEntity<VerificarCSF200ResponseDto>
+    fun verificarCSF(@NotNull @Parameter(description = "ID del usuario para el cual se desea verificar el CSF", required = true) @Valid @RequestParam(value = "usuarioId", required = true) usuarioId: kotlin.String,@Parameter(description = "Archivo en PDF o imagen") @Valid @RequestPart("archivo", required = true) archivo: org.springframework.core.io.Resource): ResponseEntity<VerificarCSF200ResponseDto>
 
     @Operation(
         tags = ["Documentos",],
@@ -144,5 +144,5 @@ interface DocumentosApi {
             produces = ["application/json"],
             consumes = ["multipart/form-data"]
     )
-    fun verificarINE(@NotNull @Parameter(description = "ID del usuario para el cual se desea verificar el INE", required = true) @Valid @RequestParam(value = "usuarioId", required = true) usuarioId: kotlin.String,@Parameter(description = "Primera imagen de la INE") @Valid @RequestPart("ine1", required = false) ine1: org.springframework.core.io.Resource?,@Parameter(description = "Segunda imagen de la INE") @Valid @RequestPart("ine2", required = false) ine2: org.springframework.core.io.Resource?): ResponseEntity<VerificarINE200ResponseDto>
+    fun verificarINE(@NotNull @Parameter(description = "ID del usuario para el cual se desea verificar el INE", required = true) @Valid @RequestParam(value = "usuarioId", required = true) usuarioId: kotlin.String,@Parameter(description = "Primera imagen de la INE") @Valid @RequestPart("ine1", required = true) ine1: org.springframework.core.io.Resource,@Parameter(description = "Segunda imagen de la INE") @Valid @RequestPart("ine2", required = true) ine2: org.springframework.core.io.Resource): ResponseEntity<VerificarINE200ResponseDto>
 }

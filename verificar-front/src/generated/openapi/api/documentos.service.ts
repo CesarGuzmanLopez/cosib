@@ -280,12 +280,15 @@ export class DocumentosService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public verificarCSF(usuarioId: string, archivo?: Blob, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<VerificarCSF200Response>;
-    public verificarCSF(usuarioId: string, archivo?: Blob, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<VerificarCSF200Response>>;
-    public verificarCSF(usuarioId: string, archivo?: Blob, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<VerificarCSF200Response>>;
-    public verificarCSF(usuarioId: string, archivo?: Blob, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public verificarCSF(usuarioId: string, archivo: Blob, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<VerificarCSF200Response>;
+    public verificarCSF(usuarioId: string, archivo: Blob, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<VerificarCSF200Response>>;
+    public verificarCSF(usuarioId: string, archivo: Blob, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<VerificarCSF200Response>>;
+    public verificarCSF(usuarioId: string, archivo: Blob, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (usuarioId === null || usuarioId === undefined) {
             throw new Error('Required parameter usuarioId was null or undefined when calling verificarCSF.');
+        }
+        if (archivo === null || archivo === undefined) {
+            throw new Error('Required parameter archivo was null or undefined when calling verificarCSF.');
         }
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
@@ -487,12 +490,18 @@ export class DocumentosService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public verificarINE(usuarioId: string, ine1?: Blob, ine2?: Blob, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<VerificarINE200Response>;
-    public verificarINE(usuarioId: string, ine1?: Blob, ine2?: Blob, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<VerificarINE200Response>>;
-    public verificarINE(usuarioId: string, ine1?: Blob, ine2?: Blob, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<VerificarINE200Response>>;
-    public verificarINE(usuarioId: string, ine1?: Blob, ine2?: Blob, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public verificarINE(usuarioId: string, ine1: Blob, ine2: Blob, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<VerificarINE200Response>;
+    public verificarINE(usuarioId: string, ine1: Blob, ine2: Blob, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<VerificarINE200Response>>;
+    public verificarINE(usuarioId: string, ine1: Blob, ine2: Blob, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<VerificarINE200Response>>;
+    public verificarINE(usuarioId: string, ine1: Blob, ine2: Blob, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (usuarioId === null || usuarioId === undefined) {
             throw new Error('Required parameter usuarioId was null or undefined when calling verificarINE.');
+        }
+        if (ine1 === null || ine1 === undefined) {
+            throw new Error('Required parameter ine1 was null or undefined when calling verificarINE.');
+        }
+        if (ine2 === null || ine2 === undefined) {
+            throw new Error('Required parameter ine2 was null or undefined when calling verificarINE.');
         }
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
