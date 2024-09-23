@@ -43,7 +43,8 @@ dependencies {
     implementation("org.mariadb.jdbc:mariadb-java-client:3.1.0")
 	implementation("org.apache.xmlgraphics:batik-transcoder:1.14")
 	implementation("org.apache.xmlgraphics:batik-codec:1.14")
-
+//implementation 'com.google.cloud:google-cloud-vision'
+	implementation("com.google.cloud:google-cloud-vision:2.3.0")
 	implementation("org.mapstruct:mapstruct:$mapStructVersion")
 	kapt("org.mapstruct:mapstruct-processor:$mapStructVersion")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")

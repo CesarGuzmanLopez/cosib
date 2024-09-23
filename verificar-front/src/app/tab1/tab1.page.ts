@@ -5,6 +5,11 @@ import { Router } from '@angular/router';
 import {
   AlertController,
   IonButton,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardSubtitle,
+  IonCardTitle,
   IonContent,
   IonHeader,
   IonInput,
@@ -35,7 +40,12 @@ import { PreferencesService } from '../preferences.services';
     IonItem,
     IonLabel,
     IonInput,
+    IonCard,
     FormsModule,
+    IonCardContent,
+    IonCardTitle,
+    IonCardHeader,
+    IonCardSubtitle,
   ],
 })
 export class Tab1Page implements OnInit {

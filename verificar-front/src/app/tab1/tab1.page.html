@@ -16,106 +16,92 @@
   </div>
 
   <form>
-    <!-- INE -->
     <ion-item>
-      <div class="input-container">
-        <div position="floating">INE Frente</div>
-        <input type="file" (change)="onFileChange($event, 'ineFrente')" accept="image/png, image/jpeg" />
-      </div>
+      <ion-input type="file" labelPlacement="floating" label="Sube el INE Frente"
+        (change)="onFileChange($event, 'ineFrente')" accept="image/png, image/jpeg" />
     </ion-item>
     <ion-item>
-      <div class="input-container">
-        <div position="floating">INE Reverso</div>
-        <input type="file" (change)="onFileChange($event, 'ineReverso')" accept="image/png, image/jpeg" />
-      </div>
+      <ion-input labelPlacement="floating" label="Sube el INE Reverso" type="file"
+        (change)="onFileChange($event, 'ineReverso')" accept="image/png, image/jpeg" />
     </ion-item>
     <div class="preview-container">
       <h3>Previsualización INE</h3>
-      <table>
-        <tr>
-          <th>INE Frente</th>
-          <th>INE Reverso</th>
-          <th>Respuesta</th>
-        </tr>
-        <tr>
-          <td>
+      <div class="card-container">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>INE Frente</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
             <img *ngIf="documentPreviews.ineFrente && !isPdf(documentPreviews.ineFrente)"
-              [src]="documentPreviews.ineFrente" alt="INE Frente" style="max-width: 150px; max-height: 150px;" />
-            <embed *ngIf="isPdf(documentPreviews.ineFrente)" [src]="documentPreviews.ineFrente" type="application/pdf"
-              style="max-width: 150px; max-height: 150px;" />
-          </td>
-          <td>
+              [src]="documentPreviews.ineFrente" alt="INE Frente" />
+            <embed *ngIf="isPdf(documentPreviews.ineFrente)" [src]="documentPreviews.ineFrente"
+              type="application/pdf" />
+          </ion-card-content>
+        </ion-card>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>INE Reverso</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
             <img *ngIf="documentPreviews.ineReverso && !isPdf(documentPreviews.ineReverso)"
-              [src]="documentPreviews.ineReverso" alt="INE Reverso" style="max-width: 150px; max-height: 150px;" />
-            <embed *ngIf="isPdf(documentPreviews.ineReverso)" [src]="documentPreviews.ineReverso" type="application/pdf"
-              style="max-width: 150px; max-height: 150px;" />
-          </td>
-          <td>{{ documentResponses.ineFrente || documentResponses.ineReverso | json }}</td>
-        </tr>
-      </table>
+              [src]="documentPreviews.ineReverso" alt="INE Reverso" />
+            <embed *ngIf="isPdf(documentPreviews.ineReverso)" [src]="documentPreviews.ineReverso"
+              type="application/pdf" />
+          </ion-card-content>
+        </ion-card>
+      </div>
       <ion-button expand="full" (click)="uploadINE()">Subir INE</ion-button>
+      <p class="response">{{ documentResponses.ineFrente || documentResponses.ineReverso | json }}</p>
     </div>
 
-    <!-- Certificado de Situación Fiscal -->
     <ion-item>
-      <div class="input-container">
-        <div position="floating">Certificado de Situación Fiscal</div>
-        <input type="file" (change)="onFileChange($event, 'csf')" accept="application/pdf, image/png, image/jpeg" />
-      </div>
+      <ion-input labelPlacement="floating" label="Sube el Comprobante de Situación Fiscal" type="file"
+        (change)="onFileChange($event, 'csf')" accept="application/pdf, image/png, image/jpeg" />
     </ion-item>
     <div class="preview-container">
       <h3>Previsualización CSF</h3>
-      <table>
-        <tr>
-          <th>Previsualización</th>
-          <th>Respuesta</th>
-        </tr>
-        <tr>
-          <td>
-            <img *ngIf="documentPreviews.csf && !isPdf(documentPreviews.csf)" [src]="documentPreviews.csf" alt="CSF"
-              style="max-width: 150px; max-height: 150px;" />
-            <embed *ngIf="isPdf(documentPreviews.csf)" [src]="documentPreviews.csf" type="application/pdf"
-              style="max-width: 150px; max-height: 150px;" />
-          </td>
-          <td>{{ documentResponses.csf | json }}</td>
-        </tr>
-      </table>
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Certificado de Situación Fiscal</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <img *ngIf="documentPreviews.csf && !isPdf(documentPreviews.csf)" [src]="documentPreviews.csf" alt="CSF" />
+          <embed *ngIf="isPdf(documentPreviews.csf)" [src]="documentPreviews.csf" type="application/pdf" />
+        </ion-card-content>
+      </ion-card>
       <ion-button expand="full" (click)="uploadCSF()">Subir CSF</ion-button>
+      <p class="response">{{ documentResponses.csf | json }}</p>
     </div>
 
-    <!-- Comprobante Bancario -->
     <ion-item>
-      <div class="input-container">
-        <div position="floating">Comprobante Bancario</div>
-        <input type="file" (change)="onFileChange($event, 'bancario')"
-          accept="application/pdf, image/png, image/jpeg" />
-      </div>
+      <ion-input labelPlacement="floating" label="Sube el Comprobante Bancario" type="file"
+        (change)="onFileChange($event, 'bancario')" accept="application/pdf, image/png, image/jpeg" />
     </ion-item>
     <div class="preview-container">
       <h3>Previsualización Comprobante Bancario</h3>
-      <table>
-        <tr>
-          <th>Previsualización</th>
-          <th>Respuesta</th>
-        </tr>
-        <tr>
-          <td>
-            <img *ngIf="documentPreviews.bancario && !isPdf(documentPreviews.bancario)"
-              [src]="documentPreviews.bancario" alt="Comprobante Bancario"
-              style="max-width: 150px; max-height: 150px;" />
-            <embed *ngIf="isPdf(documentPreviews.bancario)" [src]="documentPreviews.bancario" type="application/pdf"
-              style="max-width: 150px; max-height: 150px;" />
-          </td>
-          <td>{{ documentResponses.bancario | json }}</td>
-        </tr>
-      </table>
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Comprobante Bancario</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <img *ngIf="documentPreviews.bancario && !isPdf(documentPreviews.bancario)" [src]="documentPreviews.bancario"
+            alt="Comprobante Bancario" />
+          <embed *ngIf="isPdf(documentPreviews.bancario)" [src]="documentPreviews.bancario" type="application/pdf" />
+        </ion-card-content>
+      </ion-card>
       <ion-button expand="full" (click)="uploadBancario()">Subir Comprobante Bancario</ion-button>
+      <p class="response">{{ documentResponses.bancario | json }}</p>
     </div>
   </form>
 </ion-content>
 
 <style>
-  .input-container {
+  .welcome-message {
+    text-align: center;
+    margin: 20px 0;
+  }
+
+  ion-item {
     margin-bottom: 16px;
   }
 
@@ -123,24 +109,31 @@
     margin-top: 20px;
   }
 
-  table {
+  .card-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  ion-card {
+    flex: 1 1 calc(50% - 10px);
+    margin: 5px;
+  }
+
+  ion-card img,
+  ion-card embed {
     width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
+    height: auto;
+    max-height: 200px;
   }
 
-  th,
-  td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    text-align: center;
+  ion-button {
+    margin-top: 20px;
   }
 
-  th {
-    background-color: #f2f2f2;
-  }
-
-  img {
-    border-radius: 8px;
+  .response {
+    font-size: 12px;
+    color: #666;
+    margin-top: 8px;
   }
 </style>
