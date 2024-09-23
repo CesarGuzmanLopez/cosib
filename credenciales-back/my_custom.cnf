@@ -1,0 +1,4 @@
+[mysqld]
+# Aumentar el tamaño máximo permitido para BLOBs y consultas SQL
+max_allowed_packet=256M
+innodb_log_file_size=256M           

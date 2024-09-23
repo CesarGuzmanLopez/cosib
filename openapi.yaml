@@ -1,0 +1,513 @@
+openapi: 3.1.0
+x-stoplight:
+  id: bvg645egfdh
+info:
+  title: ine-verificator
+  version: "1.0"
+  description: "API para verificar documentos oficiales como INE, CSF y documentos bancarios."
+  contact:
+    name: Soporte Técnico
+    email: soporte@ejemplo.com
+    url: "https://www.ejemplo.com"
+  license:
+    name: MIT
+    url: "https://opensource.org/licenses/MIT"
+servers:
+  - url: "http://localhost:3000"
+security:
+  - Bearer: []
+tags:
+  - name: Configuración
+    description: Operaciones para obtener configuración del sistema.
+  - name: Documentos
+    description: Operaciones relacionadas con la verificación de documentos.
+  - name: Usuarios
+    description: Operaciones relacionadas con la gestión de usuarios.
+components:
+  securitySchemes:
+    Bearer:
+      type: http
+      scheme: bearer
+  schemas:
+    TipoDocumento:
+      type: string
+      enum:
+        - ine
+        - csf
+        - documento_bancario
+        - ine_frente
+        - ine_reverso
+    EstadoDocumento:
+      type: string
+      enum:
+        - no_subido
+        - subido_invalido
+        - subido_valido
+        - subido_verificado
+    DocumentoEstado:
+      type: object
+      properties:
+        documentoId:
+          type: string
+          description: ID del documento
+        tipo_documento:
+          $ref: "#/components/schemas/TipoDocumento"
+        estado:
+          $ref: "#/components/schemas/EstadoDocumento"
+        ruta:
+          type: string
+          description: Ruta del documento
+    EstadosDocumentosResponse:
+      type: object
+      properties:
+        documentos:
+          type: array
+          items:
+            $ref: "#/components/schemas/DocumentoEstado"
+        mensaje:
+          type: string
+          example: Consulta realizada con éxito
+    LoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          example: Bearer <token>
+        id:
+          type: String
+          x-stoplight:
+            id: c03u3tki1r8mg
+    RegisterRequest:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+          description: Nombre de usuario
+        password:
+          type: string
+          description: Contraseña
+        nombre:
+          type: string
+          description: Nombre completo
+        fecha_nacimiento:
+          type: string
+          format: date
+          description: Fecha de nacimiento
+        sexo:
+          type: string
+          description: Sexo
+        direccion:
+          type: string
+          description: Dirección
+    UserDataResponse:
+      type: object
+      properties:
+        nombre:
+          type: string
+        fecha_nacimiento:
+          type: string
+          format: date
+        sexo:
+          type: string
+        direccion:
+          type: string
+        email:
+          type: string
+          format: email
+    UserUpdateRequest:
+      type: object
+      properties:
+        nombre:
+          type: string
+        fecha_nacimiento:
+          type: string
+          format: date
+        sexo:
+          type: string
+        direccion:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Mensaje de error
+        code:
+          type: integer
+          example: 400
+paths:
+  /documentos/estado:
+    get:
+      summary: Obtener estado de todos los documentos de un usuario
+      description: Regresa el estado de todos los documentos asociados al usuario autenticado.
+      operationId: obtenerEstadoDocumentos
+      tags:
+        - Documentos
+      parameters:
+        - name: usuarioId
+          in: query
+          required: true
+          schema:
+            type: string
+          description: ID del usuario para el cual se desean obtener los estados de documentos
+      responses:
+        "200":
+          description: Estados de los documentos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EstadosDocumentosResponse"
+        "401":
+          description: Token expirado o no válido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /login:
+    post:
+      summary: Login
+      description: Inicia sesión y devuelve un Bearer token.
+      operationId: loginUser
+      tags:
+        - Usuarios
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: Nombre de usuario
+                password:
+                  type: string
+                  description: Contraseña
+      responses:
+        "200":
+          description: Inicio de sesión exitoso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
+        "401":
+          description: Credenciales inválidas
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Token expirado o no válido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /register:
+    post:
+      summary: Registro de Usuario
+      description: Registra un nuevo usuario en el sistema.
+      operationId: registerUser
+      tags:
+        - Usuarios
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterRequest"
+      responses:
+        "201":
+          description: Usuario registrado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
+        "400":
+          description: Datos de registro inválidos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "409":
+          description: Usuario ya existe
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /verificar-ine:
+    post:
+      summary: Verificar INE
+      description: Envía dos archivos de fotos de la INE y regresa los datos.
+      operationId: verificarINE
+      tags:
+        - Documentos
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                ine1:
+                  type: string
+                  format: binary
+                  description: Primera imagen de la INE
+                ine2:
+                  type: string
+                  format: binary
+                  description: Segunda imagen de la INE
+      responses:
+        "200":
+          description: Documento INE válido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  nombre:
+                    type: string
+                  sexo:
+                    type: string
+                  direccion:
+                    type: string
+                  fecha_nacimiento:
+                    type: string
+                    format: date
+        "400":
+          description: Documento INE no válido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Token expirado o no válido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /verificar-csf:
+    post:
+      summary: Verificación de CSF
+      description: Envía un archivo en PDF o imagen y regresa datos del RFC.
+      operationId: verificarCSF
+      tags:
+        - Documentos
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                archivo:
+                  type: string
+                  format: binary
+                  description: Archivo en PDF o imagen
+      responses:
+        "200":
+          description: Documento CSF válido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  nombre:
+                    type: string
+                  situacion:
+                    type: string
+                  rfc:
+                    type: string
+                  datos_adicionales:
+                    type: object
+        "400":
+          description: Documento CSF no válido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Token expirado o no válido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /verificar-documento-bancario:
+    post:
+      summary: Validación de Documento Bancario
+      description: Envía un documento bancario y regresa datos del propietario.
+      operationId: verificarDocumentoBancario
+      tags:
+        - Documentos
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                documento:
+                  type: string
+                  format: binary
+                  description: Archivo del documento bancario
+      responses:
+        "200":
+          description: Documento bancario válido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  nombre:
+                    type: string
+                  banco:
+                    type: string
+                  cuenta:
+                    type: string
+                  datos_adicionales:
+                    type: object
+        "400":
+          description: Documento bancario no válido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Token expirado o no válido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /usuario/{usuarioId}:
+    get:
+      summary: Obtener información del usuario
+      description: Devuelve los detalles del usuario autenticado.
+      operationId: obtenerDatosUsuario
+      tags:
+        - Usuarios
+      parameters:
+        - name: usuarioId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID del usuario a consultar
+      responses:
+        "200":
+          description: Información del usuario obtenida exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserDataResponse"
+        "401":
+          description: Token expirado o no válido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    put:
+      summary: Modificar información del usuario
+      description: Actualiza los detalles del usuario autenticado.
+      operationId: modificarDatosUsuario
+      tags:
+        - Usuarios
+      parameters:
+        - name: usuarioId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID del usuario a modificar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserUpdateRequest"
+      responses:
+        "200":
+          description: Información del usuario modificada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserDataResponse"
+        "400":
+          description: Datos de modificación inválidos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Token expirado o no válido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
