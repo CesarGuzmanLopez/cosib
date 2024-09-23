@@ -34,7 +34,7 @@ data class VerificarCSF200ResponseDto(
     @field:Valid
     @Schema(example = "null", description = "")
     @get:JsonProperty("datos_adicionales") val datosAdicionales: kotlin.Any? = null
-) {
+    ) {
 
 }
 

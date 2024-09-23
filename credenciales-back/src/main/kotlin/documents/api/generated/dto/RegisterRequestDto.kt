@@ -42,7 +42,7 @@ data class RegisterRequestDto(
 
     @Schema(example = "null", description = "Dirección")
     @get:JsonProperty("direccion") val direccion: kotlin.String? = null
-) {
+    ) {
 
 }
 

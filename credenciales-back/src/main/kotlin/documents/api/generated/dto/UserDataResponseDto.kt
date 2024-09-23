@@ -39,7 +39,7 @@ data class UserDataResponseDto(
     @get:Email
     @Schema(example = "null", description = "")
     @get:JsonProperty("email") val email: kotlin.String? = null
-) {
+    ) {
 
 }
 

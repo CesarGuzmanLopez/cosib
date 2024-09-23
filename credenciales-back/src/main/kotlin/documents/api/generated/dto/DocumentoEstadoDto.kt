@@ -1,6 +1,7 @@
 package documents.api.generated.dto
 
 import java.util.Objects
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonValue
 import documents.api.generated.dto.EstadoDocumentoDto
@@ -38,7 +39,7 @@ data class DocumentoEstadoDto(
 
     @Schema(example = "null", description = "Ruta del documento")
     @get:JsonProperty("ruta") val ruta: kotlin.String? = null
-) {
+    ) {
 
 }
 

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import java.util.*
+import javax.security.auth.login.LoginException
 
 @RestController
 @RequestMapping("/api")
@@ -24,16 +25,21 @@ class UserController(
         if (user.password != loginUserRequestDto.password) {
             throw RuntimeException("Invalid password")
         }
-        //gemerop un jwt con el username
+        //genero un jwt con el username
         val jwt: String = generatetoken(loginUserRequestDto.username)
         val respuesta = LoginResponseDto(
             token = jwt,
-            id = user.id
+            id = user.id.toString()
         )
         return ResponseEntity.ok(respuesta)
     }
 
     override fun registerUser(registerRequestDto: RegisterRequestDto): ResponseEntity<LoginResponseDto> {
+        //primero verifico si el usuario ya existe
+        val userExists: Users? = userRepository.findByUsername(registerRequestDto.username)
+        if (userExists != null) {
+            throw RuntimeException("User already exists")
+        }
         val user = Users(
             username = registerRequestDto.username,
             password = registerRequestDto.password,
@@ -42,12 +48,12 @@ class UserController(
             sexo = registerRequestDto.sexo,
             direccion = registerRequestDto.direccion
         )
-        val savedUser =  userRepository.save(user)
+        val savedUser = userRepository.save(user)
 
         val jwt: String = generatetoken(registerRequestDto.username)
         val respuesta = LoginResponseDto(
             token = jwt,
-            id = savedUser.id
+            id = savedUser.id.toString()
         )
         return ResponseEntity.ok(respuesta)
     }
@@ -69,7 +75,7 @@ class UserController(
         usuarioId: String,
         userUpdateRequestDto: UserUpdateRequestDto
     ): ResponseEntity<UserDataResponseDto> {
-        var user: Users = userRepository.findById(UUID.fromString(usuarioId)).orElseThrow {
+        val user: Users = userRepository.findById(UUID.fromString(usuarioId)).orElseThrow {
             RuntimeException("User not found")
         }
 
@@ -78,7 +84,6 @@ class UserController(
         user.sexo = userUpdateRequestDto.sexo
         user.direccion = userUpdateRequestDto.direccion
         val updatedUser = userRepository.save(user)
-
 
         return ResponseEntity.ok(UserDataResponseDto(
             nombre = updatedUser.nombre,

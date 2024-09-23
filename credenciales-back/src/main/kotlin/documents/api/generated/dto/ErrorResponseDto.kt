@@ -25,7 +25,7 @@ data class ErrorResponseDto(
 
     @Schema(example = "400", description = "")
     @get:JsonProperty("code") val code: kotlin.Int? = null
-) {
+    ) {
 
 }
 

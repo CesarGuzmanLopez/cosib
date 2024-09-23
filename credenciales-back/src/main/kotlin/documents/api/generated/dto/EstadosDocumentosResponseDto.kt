@@ -27,7 +27,7 @@ data class EstadosDocumentosResponseDto(
 
     @Schema(example = "Consulta realizada con éxito", description = "")
     @get:JsonProperty("mensaje") val mensaje: kotlin.String? = null
-) {
+    ) {
 
 }
 

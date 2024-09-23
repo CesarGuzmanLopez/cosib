@@ -34,7 +34,7 @@ data class VerificarINE200ResponseDto(
     @field:Valid
     @Schema(example = "null", description = "")
     @get:JsonProperty("fecha_nacimiento") val fechaNacimiento: java.time.LocalDate? = null
-) {
+    ) {
 
 }
 
