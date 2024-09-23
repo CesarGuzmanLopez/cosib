@@ -22,8 +22,9 @@ import io.swagger.v3.oas.annotations.media.Schema
  * @param documentoId ID del documento
  * @param tipoDocumento 
  * @param estado 
+ * @param ruta Documento en formato de bytes
  */
-data class DocumentoEstadoDto(
+data class DocumentoResponseDto(
 
     @Schema(example = "null", description = "ID del documento")
     @get:JsonProperty("documentoId") val documentoId: kotlin.String? = null,
@@ -34,7 +35,10 @@ data class DocumentoEstadoDto(
 
     @field:Valid
     @Schema(example = "null", description = "")
-    @get:JsonProperty("estado") val estado: EstadoDocumentoDto? = null
+    @get:JsonProperty("estado") val estado: EstadoDocumentoDto? = null,
+
+    @Schema(example = "null", description = "Documento en formato de bytes")
+    @get:JsonProperty("ruta") val ruta: kotlin.ByteArray? = null
     ) {
 
 }

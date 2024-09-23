@@ -3,6 +3,7 @@ src/main/kotlin/documents/api/generated/api/DocumentosApi.kt
 src/main/kotlin/documents/api/generated/api/Exceptions.kt
 src/main/kotlin/documents/api/generated/api/UsuariosApi.kt
 src/main/kotlin/documents/api/generated/dto/DocumentoEstadoDto.kt
+src/main/kotlin/documents/api/generated/dto/DocumentoResponseDto.kt
 src/main/kotlin/documents/api/generated/dto/ErrorResponseDto.kt
 src/main/kotlin/documents/api/generated/dto/EstadoDocumentoDto.kt
 src/main/kotlin/documents/api/generated/dto/EstadosDocumentosResponseDto.kt

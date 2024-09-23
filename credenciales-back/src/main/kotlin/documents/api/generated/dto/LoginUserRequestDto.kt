@@ -18,7 +18,7 @@ import io.swagger.v3.oas.annotations.media.Schema
  * @param username Nombre de usuario
  * @param password Contraseña
  */
-data class      LoginUserRequestDto(
+data class LoginUserRequestDto(
 
     @Schema(example = "null", description = "Nombre de usuario")
     @get:JsonProperty("username") val username: kotlin.String? = null,

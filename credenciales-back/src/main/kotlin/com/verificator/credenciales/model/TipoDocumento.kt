@@ -1,4 +1,15 @@
 package com.verificator.credenciales.model
+
+
+//    ine("ine"),
+//    csf("csf"),
+//    documento_bancario("documento_bancario"),
+//    ine_frente("ine_frente"),
+//    ine_reverso("ine_reverso");
 enum class TipoDocumento {
-    INE, CSF, DOCUMENTO_BANCARIO, INE_FRONTE, INE_REVERSO
+    ine,
+    csf,
+    documento_bancario,
+    ine_frente,
+    ine_reverso
 }

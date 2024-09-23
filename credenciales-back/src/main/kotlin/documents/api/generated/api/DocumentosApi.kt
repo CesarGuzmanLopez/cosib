@@ -5,8 +5,10 @@
 */
 package documents.api.generated.api
 
+import documents.api.generated.dto.DocumentoResponseDto
 import documents.api.generated.dto.ErrorResponseDto
 import documents.api.generated.dto.EstadosDocumentosResponseDto
+import documents.api.generated.dto.TipoDocumentoDto
 import documents.api.generated.dto.VerificarCSF200ResponseDto
 import documents.api.generated.dto.VerificarDocumentoBancario200ResponseDto
 import documents.api.generated.dto.VerificarINE200ResponseDto
@@ -40,6 +42,26 @@ import kotlin.collections.Map
 @RestController
 @Validated
 interface DocumentosApi {
+
+    @Operation(
+        tags = ["Documentos",],
+        summary = "Obtener documento por tipo",
+        operationId = "obtenerDocumentoPorTipo",
+        description = """Regresa el documento asociado al usuario y tipo de documento especificado.""",
+        responses = [
+            ApiResponse(responseCode = "200", description = "Documento encontrado", content = [Content(schema = Schema(implementation = DocumentoResponseDto::class))]),
+            ApiResponse(responseCode = "401", description = "Token expirado o no válido", content = [Content(schema = Schema(implementation = ErrorResponseDto::class))]),
+            ApiResponse(responseCode = "404", description = "Documento no encontrado", content = [Content(schema = Schema(implementation = ErrorResponseDto::class))]),
+            ApiResponse(responseCode = "500", description = "Error interno del servidor", content = [Content(schema = Schema(implementation = ErrorResponseDto::class))])
+        ],
+        security = [ SecurityRequirement(name = "Bearer") ]
+    )
+    @RequestMapping(
+            method = [RequestMethod.GET],
+            value = ["/documentos/{usuarioId}/{tipoDocumento}"],
+            produces = ["application/json"]
+    )
+    fun obtenerDocumentoPorTipo(@Parameter(description = "ID del usuario para el cual se desea obtener el documento", required = true) @PathVariable("usuarioId") usuarioId: kotlin.String,@Parameter(description = "Tipo de documento que se desea obtener", required = true, schema = Schema(allowableValues = ["\"ine\"", "\"csf\"", "\"documento_bancario\"", "\"ine_frente\"", "\"ine_reverso\""])) @PathVariable("tipoDocumento") tipoDocumento: TipoDocumentoDto): ResponseEntity<DocumentoResponseDto>
 
     @Operation(
         tags = ["Documentos",],
@@ -80,7 +102,7 @@ interface DocumentosApi {
             produces = ["application/json"],
             consumes = ["multipart/form-data"]
     )
-    fun verificarCSF(@Parameter(description = "Archivo en PDF o imagen") @Valid @RequestPart("archivo", required = false) archivo: org.springframework.core.io.Resource?): ResponseEntity<VerificarCSF200ResponseDto>
+    fun verificarCSF(@NotNull @Parameter(description = "ID del usuario para el cual se desea verificar el CSF", required = true) @Valid @RequestParam(value = "usuarioId", required = true) usuarioId: kotlin.String,@Parameter(description = "Archivo en PDF o imagen") @Valid @RequestPart("archivo", required = false) archivo: org.springframework.core.io.Resource?): ResponseEntity<VerificarCSF200ResponseDto>
 
     @Operation(
         tags = ["Documentos",],
@@ -101,7 +123,7 @@ interface DocumentosApi {
             produces = ["application/json"],
             consumes = ["multipart/form-data"]
     )
-    fun verificarDocumentoBancario(@Parameter(description = "Archivo del documento bancario") @Valid @RequestPart("documento", required = false) documento: org.springframework.core.io.Resource?): ResponseEntity<VerificarDocumentoBancario200ResponseDto>
+    fun verificarDocumentoBancario(@NotNull @Parameter(description = "ID del usuario para el cual se desea verificar el documento bancario", required = true) @Valid @RequestParam(value = "usuarioId", required = true) usuarioId: kotlin.String,@Parameter(description = "Archivo del documento bancario") @Valid @RequestPart("documento", required = false) documento: org.springframework.core.io.Resource?): ResponseEntity<VerificarDocumentoBancario200ResponseDto>
 
     @Operation(
         tags = ["Documentos",],
@@ -122,5 +144,5 @@ interface DocumentosApi {
             produces = ["application/json"],
             consumes = ["multipart/form-data"]
     )
-    fun verificarINE(@Parameter(description = "Primera imagen de la INE") @Valid @RequestPart("ine1", required = false) ine1: org.springframework.core.io.Resource?,@Parameter(description = "Segunda imagen de la INE") @Valid @RequestPart("ine2", required = false) ine2: org.springframework.core.io.Resource?): ResponseEntity<VerificarINE200ResponseDto>
+    fun verificarINE(@NotNull @Parameter(description = "ID del usuario para el cual se desea verificar el INE", required = true) @Valid @RequestParam(value = "usuarioId", required = true) usuarioId: kotlin.String,@Parameter(description = "Primera imagen de la INE") @Valid @RequestPart("ine1", required = false) ine1: org.springframework.core.io.Resource?,@Parameter(description = "Segunda imagen de la INE") @Valid @RequestPart("ine2", required = false) ine2: org.springframework.core.io.Resource?): ResponseEntity<VerificarINE200ResponseDto>
 }
