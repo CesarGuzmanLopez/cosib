@@ -85,7 +85,7 @@ export class Tab1Page implements OnInit {
     private documentosService: DocumentosService,
     private usuariosService: UsuariosService,
     private router: Router,
-    private alertController: AlertController,
+    private alertController: AlertController
   ) {}
 
   ngOnInit() {
@@ -106,7 +106,6 @@ export class Tab1Page implements OnInit {
       });
     }
   }
-
   loadUserDocuments(userId: string) {
     this.documentosService.obtenerEstadoDocumentos(userId).subscribe({
       next: (response) => {
@@ -143,7 +142,7 @@ export class Tab1Page implements OnInit {
                 error: (error) => {
                   console.error(
                     `Error loading document ${documento.tipo_documento}:`,
-                    error,
+                    error
                   );
                 },
               });
@@ -155,7 +154,6 @@ export class Tab1Page implements OnInit {
       },
     });
   }
-
   onFileChange(event: any, tipoDocumento: string) {
     const file = event.target.files[0];
     if (file) {
@@ -167,11 +165,9 @@ export class Tab1Page implements OnInit {
       reader.readAsDataURL(file);
     }
   }
-
   isPdf(url: string): boolean {
     return url?.endsWith('.pdf');
   }
-
   async showAlert(message: string) {
     const alert = await this.alertController.create({
       header: 'Error',
@@ -180,19 +176,16 @@ export class Tab1Page implements OnInit {
     });
     await alert.present();
   }
-
   async uploadINE() {
     const userId = this.preferencesService.getIdUser();
     if (!userId) {
       await this.showAlert('Usuario no encontrado.');
       return;
     }
-
     if (!this.documents.ineFrente || !this.documents.ineReverso) {
       await this.showAlert('Por favor, sube ambos archivos de INE.');
       return;
     }
-
     this.documentosService
       .verificarINE(userId, this.documents.ineFrente, this.documents.ineReverso)
       .subscribe({
@@ -220,7 +213,7 @@ export class Tab1Page implements OnInit {
 
     if (!this.documents.csf) {
       await this.showAlert(
-        'Por favor, sube el archivo del Certificado de Situación Fiscal.',
+        'Por favor, sube el archivo del Certificado de Situación Fiscal.'
       );
       return;
     }
@@ -243,12 +236,13 @@ export class Tab1Page implements OnInit {
     if (!userId) {
       await this.showAlert('Usuario no encontrado.');
       return;
-    }z      await this.showAlert(
-        'Por favor, sube el archivo del Comprobante Bancario.',
+    }
+    if (!this.documents.bancario) {
+      await this.showAlert(
+        'Por favor, sube el archivo del documento bancario.'
       );
       return;
     }
-
     this.documentosService
       .verificarDocumentoBancario(userId, this.documents.bancario)
       .subscribe({
