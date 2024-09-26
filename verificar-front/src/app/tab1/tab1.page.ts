@@ -243,10 +243,7 @@ export class Tab1Page implements OnInit {
     if (!userId) {
       await this.showAlert('Usuario no encontrado.');
       return;
-    }
-
-    if (!this.documents.bancario) {
-      await this.showAlert(
+    }z      await this.showAlert(
         'Por favor, sube el archivo del Comprobante Bancario.',
       );
       return;
