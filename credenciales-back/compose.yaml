@@ -13,9 +13,8 @@ services:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
-      - ./my_custom.cnf:/etc/mysql/conf.d/my_custom.cnf # Añadir un archivo de configuración personalizada
+      - ./my_custom.cnf:/etc/mysql/conf.d/my_custom.cnf
       - ./my_custom.cnf:/etc/mysql/conf.d/my.cnf
-
     networks:
       - mynetwork
 
@@ -32,7 +31,22 @@ services:
     networks:
       - mynetwork
     volumes:
-      - ./php.ini:/usr/local  tc/php/php.ini # Monta el archivo php.ini
+      - ./php.ini:/usr/local/php/php.ini
+
+  springboot-app:
+    build: .
+    container_name: springboot-app-container
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://db:3306/mydatabase
+      SPRING_DATASOURCE_USERNAME: myuser
+      SPRING_DATASOURCE_PASSWORD: mypassword
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    networks:
+      - mynetwork
+
 networks:
   mynetwork:
     driver: bridge
