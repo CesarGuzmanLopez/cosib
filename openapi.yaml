@@ -163,7 +163,7 @@ components:
         code:
           type: integer
           example: 400
-    DocumentoResponse:
+          DocumentoResponse:
       type: object
       properties:
         documentoId:
@@ -176,6 +176,15 @@ components:
         archivo:
           $ref: "#/components/schemas/ArchivoBase64"
           description: Documento en formato de bytes codificado en Base64
+        nombre:
+          type: string
+          description: Nombre del usuario
+        apellido1:
+          type: string
+          description: Primer apellido del usuario
+        apellido2:
+          type: string
+          description: Segundo apellido del usuario
 paths:
   /documentos/estado:
     get:
@@ -385,6 +394,10 @@ paths:
                 type: object
                 properties:
                   nombre:
+                    type: string
+                  apellido1:
+                    type: string
+                  apellido2:
                     type: string
                   sexo:
                     type: string

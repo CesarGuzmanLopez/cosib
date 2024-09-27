@@ -16,6 +16,8 @@ import io.swagger.v3.oas.annotations.media.Schema
 /**
  * 
  * @param nombre 
+ * @param apellido1 
+ * @param apellido2 
  * @param sexo 
  * @param direccion 
  * @param fechaNacimiento 
@@ -24,6 +26,12 @@ data class VerificarINE200ResponseDto(
 
     @Schema(example = "null", description = "")
     @get:JsonProperty("nombre") val nombre: kotlin.String? = null,
+
+    @Schema(example = "null", description = "")
+    @get:JsonProperty("apellido1") val apellido1: kotlin.String? = null,
+
+    @Schema(example = "null", description = "")
+    @get:JsonProperty("apellido2") val apellido2: kotlin.String? = null,
 
     @Schema(example = "null", description = "")
     @get:JsonProperty("sexo") val sexo: kotlin.String? = null,

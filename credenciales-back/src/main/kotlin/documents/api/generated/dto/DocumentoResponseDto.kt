@@ -24,6 +24,9 @@ import io.swagger.v3.oas.annotations.media.Schema
  * @param tipoDocumento 
  * @param estado 
  * @param archivo Documento en formato de bytes codificado en Base64
+ * @param nombre Nombre del usuario
+ * @param apellido1 Primer apellido del usuario
+ * @param apellido2 Segundo apellido del usuario
  */
 data class DocumentoResponseDto(
 
@@ -40,7 +43,16 @@ data class DocumentoResponseDto(
 
     @field:Valid
     @Schema(example = "null", description = "Documento en formato de bytes codificado en Base64")
-    @get:JsonProperty("archivo") val archivo: ArchivoBase64Dto? = null
+    @get:JsonProperty("archivo") val archivo: ArchivoBase64Dto? = null,
+
+    @Schema(example = "null", description = "Nombre del usuario")
+    @get:JsonProperty("nombre") val nombre: kotlin.String? = null,
+
+    @Schema(example = "null", description = "Primer apellido del usuario")
+    @get:JsonProperty("apellido1") val apellido1: kotlin.String? = null,
+
+    @Schema(example = "null", description = "Segundo apellido del usuario")
+    @get:JsonProperty("apellido2") val apellido2: kotlin.String? = null
     ) {
 
 }
