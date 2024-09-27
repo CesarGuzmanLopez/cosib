@@ -88,6 +88,7 @@ export class Tab3Page implements OnInit {
         .subscribe({
           next: (response) => {
             console.log('User data updated successfully:', response);
+            location.reload(); // Forzar la recarga de la página después de cargar los datos
           },
           error: (error) => {
             console.error('Error updating user data:', error);

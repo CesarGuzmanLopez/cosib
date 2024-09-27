@@ -25,6 +25,18 @@ export interface DocumentoResponse {
      * Documento en formato de bytes codificado en Base64
      */
     archivo?: ArchivoBase64;
+    /**
+     * Nombre del usuario
+     */
+    nombre?: string;
+    /**
+     * Primer apellido del usuario
+     */
+    apellido1?: string;
+    /**
+     * Segundo apellido del usuario
+     */
+    apellido2?: string;
 }
 export namespace DocumentoResponse {
 }

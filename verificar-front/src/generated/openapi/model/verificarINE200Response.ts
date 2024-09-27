@@ -13,6 +13,8 @@
 
 export interface VerificarINE200Response { 
     nombre?: string;
+    apellido1?: string;
+    apellido2?: string;
     sexo?: string;
     direccion?: string;
     fecha_nacimiento?: string;

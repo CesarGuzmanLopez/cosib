@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Recortar Imagen</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <image-cropper [imageBase64]="imageBase64" [maintainAspectRatio]="true" [aspectRatio]="43 / 27                "
+    (imageCropped)="onImageCropped($event)" (cropperReady)="onCropperReady($event)">
+  </image-cropper>
+
+  <ion-button expand="full" (click)="confirmCrop()">Confirmar Recorte</ion-button>
+</ion-content>
