@@ -284,14 +284,9 @@ export class Tab1Page implements OnInit {
       return;
     }
 
-    if (!this.documents.ineFrente || !this.documents.ineReverso) {
-      await this.showAlert('Por favor, sube ambos archivos de INE.');
-      return;
-    }
-
     this.isLoading = true;
     this.documentosService
-      .verificarINE(userId, this.documents.ineFrente, this.documents.ineReverso)
+      .verificarINE(userId, this.documents.ineFrente, this.documents.ineFrente)
       .subscribe({
         next: (response) => {
           this.documentResponses.ineFrente = response;

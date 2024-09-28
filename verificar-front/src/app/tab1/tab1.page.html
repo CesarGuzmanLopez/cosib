@@ -26,20 +26,8 @@
         <fa-icon [icon]="faCamera"></fa-icon> Tomar Foto INE Frente
       </ion-button>
     </ion-item>
-    <div *ngIf="croppedImage['ineFrente']">
-      <h3>Imagen Recortada INE Frente</h3>
-      <img [src]="croppedImage['ineFrente']" alt="Imagen Recortada INE Frente" />
-    </div>
 
-    <ion-item>
-      <ion-button expand="full" (click)="takePhotoReverso()">
-        <fa-icon [icon]="faCamera"></fa-icon> Tomar Foto INE Reverso
-      </ion-button>
-    </ion-item>
-    <div *ngIf="croppedImage['ineReverso']">
-      <h3>Imagen Recortada INE Reverso</h3>
-      <img [src]="croppedImage['ineReverso']" alt="Imagen Recortada INE Reverso" />
-    </div>
+
 
     <div class="preview-container">
       <h3>Previsualización INE</h3>
@@ -55,17 +43,7 @@
               type="application/pdf" />
           </ion-card-content>
         </ion-card>
-        <ion-card>
-          <ion-card-header>
-            <ion-card-title>INE Reverso</ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <img *ngIf="documentPreviews.ineReverso && !isPdf(documentPreviews.ineReverso)"
-              [src]="documentPreviews.ineReverso" alt="INE Reverso" />
-            <embed *ngIf="isPdf(documentPreviews.ineReverso)" [src]="documentPreviews.ineReverso"
-              type="application/pdf" />
-          </ion-card-content>
-        </ion-card>
+
       </div>
       <ion-button expand="full" (click)="uploadINE()">
         <fa-icon [icon]="faUpload"></fa-icon> Subir INE
@@ -79,29 +57,19 @@
     <div class="verification-item">
       <span>Nombre:</span>
       <span>{{ datosIneRespuesta.Nombre }}</span>
-      <fa-icon
-        [icon]="datosIneRespuesta.Nombre?.toUpperCase() === userData.nombre?.toUpperCase() ? faCircle : faTimesCircle"
-        [ngClass]="{'valid': datosIneRespuesta.Nombre?.toUpperCase() === userData.nombre?.toUpperCase(), 'invalid': datosIneRespuesta.Nombre?.toUpperCase() !== userData.nombre?.toUpperCase()}"></fa-icon>
     </div>
     <div class="verification-item">
       <span>Apellido Paterno:</span>
       <span>{{ datosIneRespuesta.Apellido1 }}</span>
-      <fa-icon
-        [icon]="datosIneRespuesta.Apellido1?.toUpperCase() === userData.apellido1?.toUpperCase() ? faCircle : faTimesCircle"
-        [ngClass]="{'valid': datosIneRespuesta.Apellido1?.toUpperCase() === userData.apellido1?.toUpperCase(), 'invalid': datosIneRespuesta.Apellido1?.toUpperCase() !== userData.apellido1?.toUpperCase()}"></fa-icon>
     </div>
     <div class="verification-item">
       <span>Apellido Materno:</span>
       <span>{{ datosIneRespuesta.Apellido2 }}</span>
-      <fa-icon
-        [icon]="datosIneRespuesta.Apellido2?.toUpperCase() === userData.apellido2?.toUpperCase() ? faCircle : faTimesCircle"
-        [ngClass]="{'valid': datosIneRespuesta.Apellido2?.toUpperCase() === userData.apellido2?.toUpperCase(), 'invalid': datosIneRespuesta.Apellido2?.toUpperCase() !== userData.apellido2?.toUpperCase()}"></fa-icon>
     </div>
     @if(datosIneRespuesta.Nombre?.toUpperCase() !== userData.nombre?.toUpperCase() ||
     datosIneRespuesta.Apellido1?.toUpperCase() !== userData.apellido1?.toUpperCase() ||
     datosIneRespuesta.Apellido2?.toUpperCase() !== userData.apellido2?.toUpperCase()){
     <div class="error-message">
-      INE incorrecta porfavor modifica tus datos en configuracion o sube tu ine correcta
     </div>
     }@else{
     <div class="correct">
@@ -156,7 +124,7 @@
   }
 
   .response {
-    font-size: 12px;
+    font-size: 8px;
     color: #666;
     margin-top: 8px;
   }
